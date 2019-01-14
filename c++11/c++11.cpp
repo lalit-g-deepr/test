@@ -14,7 +14,6 @@
 #include <mutex>
 #include <queue>
 #include <fstream>
-#include <gtest/gtest.h>
 #include <future>
 #include <chrono>
 #include <tuple>
@@ -125,25 +124,25 @@ public:
 	int getValue() { return baseValue; }
 };
 
-struct myClassTest : public ::testing::Test
-{
-
-
-	myClass *mt ;
-	void SetUp() { 
-		cout << "alive" << endl;
-		mt = new myClass(100); 
-	}
-	void tearDown() { 
-		cout << "dead" << endl;
-		delete mt;	}
-};
-
-TEST_F( myClassTest, incrementby5)
-{
-	mt->incrementBy(5);
-	ASSERT_EQ(mt->getValue(), 105);
-}
+//struct myClassTest : public ::testing::Test
+//{
+//
+//
+//	myClass *mt ;
+//	void SetUp() { 
+//		cout << "alive" << endl;
+//		mt = new myClass(100); 
+//	}
+//	void tearDown() { 
+//		cout << "dead" << endl;
+//		delete mt;	}
+//};
+//
+//TEST_F( myClassTest, incrementby5)
+//{
+//	mt->incrementBy(5);
+//	ASSERT_EQ(mt->getValue(), 105);
+//}
 
 //test is->  1. arrange 2. act and 3. assert
 //unit test self content intity
@@ -176,31 +175,31 @@ public:
 };
 
 
-struct stackTest : public testing::Test
-{
-	stack s1;
-	void SetUp()
-	{
-		int value[] = { 1,2,3,4,5,6,7,8,9 };
-		for (auto &val : value)
-		{
-			s1.push(val);
-		}
-	}
-
-	void TearDown()
-	{}
-};
-
-
-TEST_F(stackTest, popTest)
-{
-	int lastpopperValue = 9;
-	while (lastpopperValue != 1)
-	{
-		ASSERT_EQ(s1.pop(), lastpopperValue--);
-	}
-}
+//struct stackTest : public testing::Test
+//{
+//	stack s1;
+//	void SetUp()
+//	{
+//		int value[] = { 1,2,3,4,5,6,7,8,9 };
+//		for (auto &val : value)
+//		{
+//			s1.push(val);
+//		}
+//	}
+//
+//	void TearDown()
+//	{}
+//};
+//
+//
+//TEST_F(stackTest, popTest)
+//{
+//	int lastpopperValue = 9;
+//	while (lastpopperValue != 1)
+//	{
+//		ASSERT_EQ(s1.pop(), lastpopperValue--);
+//	}
+//}
 
 
 deque<int> q;
@@ -295,6 +294,30 @@ int factorial(std::shared_future<int> f)
 	return res;
 }
 
+int factorial_(int N)
+{
+	int res = 1;
+	for (size_t i = N; i > 0; i--)
+	{
+		res *= i;
+	}
+	return res;
+}
+
+std::deque<std::packaged_task<int()> > task_q;
+std::mutex mu_task;
+//std::condition_variable cond;
+
+void thread_1()
+{
+	std::packaged_task<int()> t;
+	{
+		std::unique_lock<std::mutex> locker(mu_task);
+		cond.wait(locker, [=]() {return !task_q.empty(); });
+		t = std::move(task_q.front());
+	}
+	t();
+}
 int main(int argc, char* argv[])
 {
 	//std::thread t1(function_1);
@@ -371,5 +394,19 @@ int main(int argc, char* argv[])
 	cout << get<1>(t) << endl;
 	cout << get<2>(t) << endl;
 
+	std::thread t1(thread_1);
+	//pacakged task
+
+	std::packaged_task<int()> task(std::bind(factorial_, 6));
+	std::future<int> fu = task.get_future();
+
+	{
+		std::unique_lock<std::mutex> locker(mu_task);
+		task_q.push_back(std::move(task));
+	}
+	cond.notify_one();
+	cout << "abhi abhi value "<<fu.get() << endl;
+	
+	t1.join();
 	return 0;
 }
