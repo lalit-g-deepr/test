@@ -30,6 +30,7 @@ def get_lambda_arn(lambda_name, region_name_str):
     
     print(region_name_str)
 	print('test2')
+	print('test3')
     resp = lambda_client.get_function_configuration(FunctionName=lambda_name)
 
     if 'FunctionArn' in resp:
