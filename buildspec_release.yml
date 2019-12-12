@@ -1,0 +1,10 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - aws cloudformation package --template-file template_release.yaml --s3-bucket deepr-cms-lambda --output-template-file deploy_release.yaml
+artifacts:
+  type: zip
+  files:
+    #- template.yaml
+    - deploy_release.yaml

@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM Template for Layers-Demo Application
+Globals:
+    Function:
+        Timeout: 60
+        AutoPublishAlias: releaseM2M1F1
+
+Resources:
+
+    TestRegisterInstanceFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: Test_registerInstance
+            Description: test register instance
+            Role: arn:aws:iam::005595135841:role/DRLambdaRDSFullAccess
+            CodeUri: CMS_registerInstance/
+            Handler: CMS_registerInstance.lambda_handler
+            Runtime: python3.7
+            Layers: 
+                - !Ref MyLambdaLayer
+
+    TestRegisterInstanceFunctionTwo:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: Test_registerInstanceTwo
+            Description: test register instance
+            Role: arn:aws:iam::005595135841:role/DRLambdaRDSFullAccess
+            CodeUri: CMS_registerInstanceCopy/
+            Handler: CMS_registerInstanceCopy.lambda_handler
+            Runtime: python3.7
+            Layers: 
+                - !Ref MyLambdaLayer
+
+    MyLambdaLayer:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: MyLambdaLayer
+            Description: My Lambda Layer with Deserialize Function, Objectpath Module & AWS Regions JSON
+            ContentUri: CMS_lambda_layer/python.zip
+            CompatibleRuntimes:
+                - python3.6
+                - python3.7
+            RetentionPolicy: Retain
+    
+    MyLambdaLayerTwo:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: MyLambdaLayerTwo
+            Description: My Lambda Layer with Deserialize Function, Objectpath Module & AWS Regions JSON
+            ContentUri: CMS_lambda_layerCopy/python.zip
+            CompatibleRuntimes:
+                - python3.6
+                - python3.7
+            RetentionPolicy: Retain
+
+Outputs:
+    MyLambdaLayerARN:
+        Value: !Ref MyLambdaLayer
+        Description: MyLambdaLayer ARN
+        Export:
+            Name: my-lambda-layer-arn
+
+    TestRegisterInstanceFunction:
+        Description: "function for CMS console"  
+        Value: !GetAtt TestRegisterInstanceFunction.Arn
+        
+    TestRegisterInstanceFunctionTwo:
+        Description: "function for CMS console"  
+        Value: !GetAtt TestRegisterInstanceFunctionTwo.Arn
