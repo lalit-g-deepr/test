@@ -29,7 +29,7 @@ def get_lambda_arn(lambda_name, region_name_str):
     lambda_client = boto3.client('lambda', region_name=region_name_str)
     
     print(region_name_str)
-	print('test')
+	print('test2')
     resp = lambda_client.get_function_configuration(FunctionName=lambda_name)
 
     if 'FunctionArn' in resp:
