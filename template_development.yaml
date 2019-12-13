@@ -69,8 +69,8 @@ Outputs:
             
     TestRegisterInstanceFunction:
         Description: "update services status"
-        Value: !GetAtt TestRegisterInstanceFunction.A
+        Value: !GetAtt TestRegisterInstanceFunction.Arn
 
     TestRegisterInstanceFunctionTwo:
         Description: "update services status"
-        Value: !GetAtt TestRegisterInstanceFunctionTwo.A
+        Value: !GetAtt TestRegisterInstanceFunctionTwo.Arn
