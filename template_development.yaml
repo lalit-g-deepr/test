@@ -19,7 +19,6 @@ Resources:
             Runtime: python3.7
             Layers: 
                 - !Ref MyLambdaLayerTwo
-            DeletionPolicy: Retain
             
 
     TestRegisterInstanceFunctionTwo:
@@ -43,6 +42,7 @@ Resources:
             CompatibleRuntimes:
                 - python3.6
                 - python3.7
+            RetentionPolicy: Retain
     
     MyLambdaLayerTwo:
         Type: AWS::Serverless::LayerVersion

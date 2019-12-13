@@ -7,8 +7,6 @@ Globals:
         AutoPublishAlias: releaseM5M5F0
 
 Resources:
-
-
     TestRegisterInstanceFunction:
         Type: AWS::Serverless::Function
         Properties:
