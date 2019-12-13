@@ -4,7 +4,7 @@ Description: SAM Template for Layers-Demo Application
 Globals:
     Function:
         Timeout: 60
-        AutoPublishAlias: releaseM4M1F1
+        AutoPublishAlias: releaseM7M1F1
 
 Resources:
 
@@ -18,7 +18,7 @@ Resources:
             Handler: CMS_registerInstance.lambda_handler
             Runtime: python3.7
             Layers: 
-                - !Ref MyLambdaLayer
+                - !Ref MyLambdaLayerTwo
             DeletionPolicy: 'Retain'
 
     TestRegisterInstanceFunctionTwo:
@@ -62,11 +62,9 @@ Outputs:
         Description: MyLambdaLayer ARN
         Export:
             Name: my-lambda-layer-arn
-
-    TestRegisterInstanceFunction:
-        Description: "function for CMS console"  
-        Value: !GetAtt TestRegisterInstanceFunction.Arn
-        
-    TestRegisterInstanceFunctionTwo:
-        Description: "function for CMS console"  
-        Value: !GetAtt TestRegisterInstanceFunctionTwo.Arn
+            
+    MyLambdaLayerARN:
+        Value: !Ref MyLambdaLayerTwo
+        Description: MyLambdaLayerTwo ARN
+        Export:
+            Name: my-lambda-layer-two-arn
