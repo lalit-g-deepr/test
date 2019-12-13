@@ -4,6 +4,7 @@ Description: SAM Template for Layers-Demo Application
 Globals:
     Function:
         Timeout: 60
+        AutoPublishAlias: releaseM4M4F0
 
 Resources:
 
@@ -18,7 +19,6 @@ Resources:
             Runtime: python3.7
             Layers: 
                 - !Ref MyLambdaLayerTwo
-            DeletionPolicy: 'Retain'
 
     TestRegisterInstanceFunctionTwo:
         Type: AWS::Serverless::Alias
@@ -31,7 +31,6 @@ Resources:
             Runtime: python3.7
             Layers: 
                 - !Ref MyLambdaLayer
-            DeletionPolicy: 'Retain'
 
     MyLambdaLayer:
         Type: AWS::Serverless::LayerVersion
@@ -67,3 +66,11 @@ Outputs:
         Description: MyLambdaLayerTwo ARN
         Export:
             Name: my-lambda-layer-two-arn
+            
+    TestRegisterInstanceFunction:
+        Description: "update services status"
+        Value: !GetAtt TestRegisterInstanceFunction.A
+
+    TestRegisterInstanceFunctionTwo:
+        Description: "update services status"
+        Value: !GetAtt TestRegisterInstanceFunctionTwo.A
