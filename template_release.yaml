@@ -8,6 +8,7 @@ Globals:
 
 Resources:
 
+
     TestRegisterInstanceFunction:
         Type: AWS::Serverless::Function
         Properties:
