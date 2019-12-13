@@ -78,7 +78,7 @@ def create_sns_topic(sns, Id):
     return response['TopicArn']
     
 def VerifySession(connection, cursor, ownerName, ownerPassword):
-    print('in verify session')
+    print('in vey session')
     if ownerName == "*":
         return True
     print('something')

@@ -67,7 +67,7 @@ def is_statement_exists(function_name, statement_id):
             
 def create_sns_topic(sns, Id):
     sns_topic_name = G_STR_PROJECT_PREFIX + G_STR_DELIM_UNDERSCORE + G_STR_SNS + G_STR_DELIM_UNDERSCORE + str(Id)
-    print("Creating SNS topic : " + sns_topic_name)
+    print("Creating opic : " + sns_topic_name)
 
     # No need to check if topic is already created or not, it will return topic ARN f already created.
 
