@@ -19,7 +19,7 @@ Resources:
             Runtime: python3.7
             Layers: 
                 - !Ref MyLambdaLayer
-            DeletionPolicy: Retain
+            DeletionPolicy: 'Retain'
 
     TestRegisterInstanceFunctionTwo:
         Type: AWS::Serverless::Function
@@ -32,7 +32,7 @@ Resources:
             Runtime: python3.7
             Layers: 
                 - !Ref MyLambdaLayer
-            DeletionPolicy: Retain
+            DeletionPolicy: 'Retain'
 
     MyLambdaLayer:
         Type: AWS::Serverless::LayerVersion
