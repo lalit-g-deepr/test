@@ -39,7 +39,7 @@ def get_lambda_arn(lambda_name, region_name_str):
   
 def is_statement_exists(function_name, statement_id):
     try:
-        print('in statement_id')
+        print('in d statement_id')
         lambda_client = boto3.client('lambda', region_name =cms_config.region)
         
         response = lambda_client.get_policy(FunctionName = function_name)
