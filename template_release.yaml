@@ -61,7 +61,7 @@ Outputs:
         Export:
             Name: my-lambda-layer-arn
             
-    MyLambdaLayerARN:
+    MyLambdaLayerTwoARN:
         Value: !Ref MyLambdaLayerTwo
         Description: MyLambdaLayerTwo ARN
         Export:
